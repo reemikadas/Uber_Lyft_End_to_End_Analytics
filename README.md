@@ -5,7 +5,7 @@ An end-to-end data engineering and analytics project that transforms public Uber
 The project demonstrates three connected delivery stages:
 
 1. **Databricks ELT pipeline:** ingest, validate, clean, standardize, integrate, and publish data through Bronze, Silver, and Gold layers.
-2. **Tableau analytics:** export the curated Gold dataset, build an interactive fare-analysis dashboard, and prepare it for Tableau Public.
+2. **Tableau analytics:** export the curated Gold dataset and build an interactive fare-analysis dashboard packaged with its data extract.
 3. **Predictive modeling:** engineer leakage-safe features and train a model to estimate ride fares.
 
 ## Current Architecture
@@ -22,7 +22,7 @@ Databricks ELT Pipeline
     ├── Silver: cleaning, standardization, enrichment, and quarantine
     └── Gold: fare quotes joined with source/destination weather
            │
-           ├── Tableau-ready CSV ──► Packaged Tableau dashboard ──► Tableau Public
+           ├── Tableau-ready CSV ──► Packaged Tableau dashboard
            │
            └── Curated Gold data ──► Predictive ride-fare model
 ```
@@ -31,9 +31,9 @@ In this ELT design, the CSV files are loaded into Databricks before the main bus
 
 ## Architecture Progress
 
-![Uber/Lyft Databricks ELT architecture showing completed Bronze, Silver, and Gold layers with planned Tableau and predictive ML outputs](images/uber_lyft_databricks_tableau_ml_architecture.png)
+![Uber/Lyft Databricks ELT architecture showing completed Bronze, Silver, Gold, and Tableau stages with predictive ML planned](images/uber_lyft_databricks_tableau_ml_architecture.png)
 
-The Databricks ELT layers and local Tableau dashboard are complete. The diagram continues to show Tableau Public as pending until the dashboard is published online.
+The Databricks ELT layers and Tableau dashboard are complete. Predictive modeling is the remaining planned stage.
 
 ## Pipeline Status
 
@@ -46,8 +46,7 @@ The Databricks ELT layers and local Tableau dashboard are complete. The diagram 
 | Gold | ✅ Completed | Fare quotes matched to source and destination weather observations |
 | Tableau export | ✅ Completed | Validated 35-column CSV created from the curated Gold table |
 | Tableau dashboard development | ✅ Completed | Interactive fare, distance, trend, and recorded-surge dashboard packaged as a `.twbx` workbook |
-| Tableau Public publication | ⏭️ Next | Publish the completed dashboard and add its public link and preview to this README |
-| Predictive ML model | ⬜ Planned | Engineer features, train models, and evaluate fare predictions |
+| Predictive ML model | ⏭️ Next | Engineer features, train models, and evaluate fare predictions |
 
 ## Data Source
 
@@ -157,7 +156,7 @@ The resulting grain is exactly one row per valid fare quote. The table retains i
 
 ## Tableau Delivery
 
-The Tableau export notebook removes the pipeline-only `_gold_created_at` field and produces a 35-column CSV for Tableau Public.
+The Tableau export notebook removes the pipeline-only `_gold_created_at` field and produces a 35-column CSV for the packaged Tableau workbook.
 
 | Metric | Result |
 |---|---:|
@@ -175,6 +174,8 @@ The completed local dashboard is packaged with its embedded Tableau extract and 
 
 - [`tableau/uber_lyft_fare_comparison.twbx`](tableau/uber_lyft_fare_comparison.twbx)
 
+![Uber vs Lyft ride-pricing Tableau dashboard with fare-quote, route-pricing, distance, trend, and recorded-surge analysis](images/uber_lyft_tableau_dashboard.png)
+
 The dashboard, **Uber vs Lyft: Ride Pricing Analytics | Nov-Dec 2018**, includes:
 
 - Fare-quote counts by comparable service tier.
@@ -187,11 +188,11 @@ The dashboard, **Uber vs Lyft: Ride Pricing Analytics | Nov-Dec 2018**, includes
 
 The dashboard describes **fare quotes**, not completed bookings or realized revenue. The recorded surge comparison also reflects only the source `surge_multiplier` field: Uber has no values above `1` in this dataset, which should not be interpreted as proof that Uber never used dynamic pricing.
 
-The packaged workbook is approximately 31 MB and can be downloaded from GitHub. Tableau Public publication remains the next delivery step.
+The packaged workbook is approximately 31 MB and can be downloaded directly from GitHub. Publishing it to Tableau Public is optional and is not required to use the packaged workbook.
 
 ## Predictive Modeling Plan
 
-After the Tableau dashboard is complete, the governed Gold data will support a ride-fare regression workflow.
+With the Tableau dashboard complete, the governed Gold data will support the next ride-fare regression workflow.
 
 Planned candidate features include provider, ride product, distance, surge multiplier, source, destination, route, local query time, temperature, rain, humidity, cloud cover, pressure, and wind.
 
@@ -226,7 +227,8 @@ Uber_Lyft_Databricks_ELT_Tableau
 │   ├── uber_lyft_fare_comparison.twbx   # Packaged dashboard with embedded extract
 │   └── .gitkeep
 ├── images
-│   └── uber_lyft_databricks_tableau_ml_architecture.png
+│   ├── uber_lyft_databricks_tableau_ml_architecture.png
+│   └── uber_lyft_tableau_dashboard.png
 ├── docs
 ├── sql
 ├── .gitignore
@@ -242,4 +244,4 @@ These folders currently contain placeholders and will be populated as Tableau in
 
 ## Next Phase
 
-Publish the completed workbook to Tableau Public, add the public dashboard link and preview image to this README, and document the final business insights. Predictive feature engineering and model development will follow.
+Use the curated Gold data for leakage-safe predictive feature engineering, train candidate ride-fare regression models, and evaluate their performance. The completed Tableau dashboard will provide the descriptive analytics companion to the predictive model.
