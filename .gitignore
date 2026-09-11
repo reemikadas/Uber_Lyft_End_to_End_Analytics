@@ -8,4 +8,7 @@ __pycache__/
 data/raw/*.csv
 tableau/data/*.csv
 
+# Tableau temporary recovery files
+tableau/.~*.twbr
+
 *.hyper
