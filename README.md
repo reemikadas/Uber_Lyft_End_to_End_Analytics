@@ -1,11 +1,11 @@
 # Uber/Lyft Databricks ELT, Tableau, and Predictive Modeling
 
-An end-to-end data engineering and analytics project that transforms public Uber/Lyft fare estimates and Boston weather observations into governed Delta tables, a Tableau-ready dataset, and a future ride-fare predictive model.
+An end-to-end data engineering and analytics project that transforms public Uber/Lyft fare estimates and Boston weather observations into governed Delta tables, a Tableau-ready dataset, an interactive Tableau dashboard, and a future ride-fare predictive model.
 
 The project demonstrates three connected delivery stages:
 
 1. **Databricks ELT pipeline:** ingest, validate, clean, standardize, integrate, and publish data through Bronze, Silver, and Gold layers.
-2. **Tableau Public analytics:** export the curated Gold dataset and build an interactive fare-analysis dashboard.
+2. **Tableau analytics:** export the curated Gold dataset, build an interactive fare-analysis dashboard, and prepare it for Tableau Public.
 3. **Predictive modeling:** engineer leakage-safe features and train a model to estimate ride fares.
 
 ## Current Architecture
@@ -22,7 +22,7 @@ Databricks ELT Pipeline
     ├── Silver: cleaning, standardization, enrichment, and quarantine
     └── Gold: fare quotes joined with source/destination weather
            │
-           ├── Tableau-ready CSV ──► Tableau Public dashboard
+           ├── Tableau-ready CSV ──► Packaged Tableau dashboard ──► Tableau Public
            │
            └── Curated Gold data ──► Predictive ride-fare model
 ```
@@ -32,6 +32,8 @@ In this ELT design, the CSV files are loaded into Databricks before the main bus
 ## Architecture Progress
 
 ![Uber/Lyft Databricks ELT architecture showing completed Bronze, Silver, and Gold layers with planned Tableau and predictive ML outputs](images/uber_lyft_databricks_tableau_ml_architecture.png)
+
+The Databricks ELT layers and local Tableau dashboard are complete. The diagram continues to show Tableau Public as pending until the dashboard is published online.
 
 ## Pipeline Status
 
@@ -43,7 +45,8 @@ In this ELT design, the CSV files are loaded into Databricks before the main bus
 | Silver | ✅ Completed | Fare and weather data cleaned, standardized, enriched, and validated |
 | Gold | ✅ Completed | Fare quotes matched to source and destination weather observations |
 | Tableau export | ✅ Completed | Validated 35-column CSV created from the curated Gold table |
-| Tableau dashboard | ⏭️ Next | Build and publish interactive Tableau Public visualizations |
+| Tableau dashboard development | ✅ Completed | Interactive fare, distance, trend, and recorded-surge dashboard packaged as a `.twbx` workbook |
+| Tableau Public publication | ⏭️ Next | Publish the completed dashboard and add its public link and preview to this README |
 | Predictive ML model | ⬜ Planned | Engineer features, train models, and evaluate fare predictions |
 
 ## Data Source
@@ -164,7 +167,27 @@ The Tableau export notebook removes the pipeline-only `_gold_created_at` field a
 | Export file | `rideshare_gold.csv` |
 | Export size | 199.52 MB |
 
-The exported CSV was read back into Spark and validated before download. It is excluded from regular Git tracking because its size exceeds GitHub's standard per-file limit. The next phase is to build and publish the Tableau Public dashboard.
+The exported CSV was read back into Spark and validated before download. It is excluded from regular Git tracking because its size exceeds GitHub's standard per-file limit.
+
+### Interactive Dashboard
+
+The completed local dashboard is packaged with its embedded Tableau extract and stored at:
+
+- [`tableau/uber_lyft_fare_comparison.twbx`](tableau/uber_lyft_fare_comparison.twbx)
+
+The dashboard, **Uber vs Lyft: Ride Pricing Analytics | Nov-Dec 2018**, includes:
+
+- Fare-quote counts by comparable service tier.
+- Route-level median price and median price-per-mile comparisons.
+- Median distance versus pricing analysis across routes.
+- Daily pricing trends for the selected route and service tier.
+- Recorded surge-status comparison by provider.
+- Interactive date-granularity, date-period, route, pricing-metric, and service-tier controls.
+- Consistent Lyft-pink and Uber-dark-gray visual encoding.
+
+The dashboard describes **fare quotes**, not completed bookings or realized revenue. The recorded surge comparison also reflects only the source `surge_multiplier` field: Uber has no values above `1` in this dataset, which should not be interpreted as proof that Uber never used dynamic pricing.
+
+The packaged workbook is approximately 31 MB and can be downloaded from GitHub. Tableau Public publication remains the next delivery step.
 
 ## Predictive Modeling Plan
 
@@ -199,7 +222,8 @@ Uber_Lyft_Databricks_ELT_Tableau
 │   ├── raw                  # Original Source CSVs; excluded from Git
 │   └── .gitkeep
 ├── tableau
-│   ├── data                  # Local Tableau CSV; excluded from Git
+│   ├── data                              # Local Tableau CSV; excluded from Git
+│   ├── uber_lyft_fare_comparison.twbx   # Packaged dashboard with embedded extract
 │   └── .gitkeep
 ├── images
 │   └── uber_lyft_databricks_tableau_ml_architecture.png
@@ -214,8 +238,8 @@ Uber_Lyft_Databricks_ELT_Tableau
 - `docs/` — stores supporting project documentation, such as the data dictionary, architecture notes, validation summaries, Tableau dashboard screenshots, and recorded business insights.
 - `sql/` — stores reusable Databricks SQL queries for data-quality validation, exploratory analysis, Gold-table checks, and any SQL views or queries used to support Tableau.
 
-These folders currently contain placeholders and will be populated as the Tableau dashboard and predictive-modeling phases progress.
+These folders currently contain placeholders and will be populated as Tableau insights and predictive-modeling work progress.
 
 ## Next Phase
 
-Build the Tableau Public dashboard using `rideshare_gold.csv`, publish the workbook, and document its business insights. Predictive feature engineering and model development will follow after the dashboard is complete.
+Publish the completed workbook to Tableau Public, add the public dashboard link and preview image to this README, and document the final business insights. Predictive feature engineering and model development will follow.
