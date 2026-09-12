@@ -83,6 +83,8 @@ The recorded-surge result describes only the source data and does not prove that
 | Silver | Clean, standardize, validate, enrich, and quarantine records | Analytics-ready fare and weather tables |
 | Gold | Match each valid fare quote to source and destination weather | Tableau and modeling dataset |
 
+[Read the complete Databricks ELT pipeline documentation](docs/Databricks_ELT_Pipeline.md)
+
 ### Key Validation Results
 
 | Metric | Result |
@@ -129,6 +131,7 @@ Uber_Lyft_Databricks_ELT_Tableau
 |-- tableau
 |   `-- uber_lyft_fare_comparison.twbx
 |-- docs
+|   |-- Databricks_ELT_Pipeline.md
 |   `-- Insights.md
 |-- images
 |   |-- uber_lyft_databricks_tableau_ml_architecture.png
