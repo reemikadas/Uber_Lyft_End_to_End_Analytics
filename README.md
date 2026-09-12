@@ -1,4 +1,4 @@
-# Uber/Lyft Databricks ELT, Tableau, and Predictive Modeling
+# Uber vs Lyft Fare Analytics | Databricks ELT, Tableau BI & Machine Learning
 
 An end-to-end data engineering and analytics project that transforms public Uber/Lyft fare estimates and Boston weather observations into governed Delta tables, a Tableau-ready dataset, an interactive Tableau dashboard, and a future ride-fare predictive model.
 
