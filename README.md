@@ -127,10 +127,12 @@ Uber_Lyft_Databricks_ELT_Tableau
 |   |-- 01_Bronze_Ingestion.py
 |   |-- 02_Silver_Transformations.py
 |   |-- 03_Gold_Analytics.py
-|   `-- 04_Tableau_Export.py
+|   |-- 04_Tableau_Export.py
+|   `-- 05_ML_Price_Prediction.py
 |-- tableau
 |   `-- uber_lyft_fare_comparison.twbx
 |-- docs
+|   |-- Data_Dictionary.md
 |   |-- Databricks_ELT_Pipeline.md
 |   `-- Insights.md
 |-- images
